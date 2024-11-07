@@ -9,7 +9,7 @@ import {
   FormItem,
   FormMessage,
 } from "../ui/form";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import formSchema, { FormSchema, TaskStatus } from "./schema";
 import { Input } from "../ui/input";
@@ -28,17 +28,16 @@ import { createTask, deleteTask, updateTask } from "@/services/task";
 import { useToast } from "@/hooks/use-toast";
 import { Task } from "@prisma/client";
 import { CalendarIcon } from "lucide-react";
-
 type Props = {
   task?: Task;
-  onSubmitOrDelete?: () => void
+  onSubmitOrDelete?: () => void;
 };
 
 export default function Form(props: Props) {
   const { task, onSubmitOrDelete } = props;
   const isEditing = !!task;
 
-  const form = useForm({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     defaultValues: isEditing
       ? {
@@ -47,12 +46,16 @@ export default function Form(props: Props) {
           status: task.status as TaskStatus,
         }
       : {
-          status: "starting",
+          title: "",
+          description: "",
+          status: "starting" as TaskStatus,
         },
   });
+
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const onSubmit = async (data: FormSchema) => {
+
+  const onSubmit: SubmitHandler<FormSchema> = async (data: FormSchema) => {
     setIsLoading(true);
     if (!isEditing) {
       await createTask(data);
@@ -60,7 +63,7 @@ export default function Form(props: Props) {
       const newTask = {
         id: task.id,
         createdAt: task.createdAt,
-        description: data.description || "",
+        description: data.description,
         status: data.status,
         title: data.title,
       } as Task;
@@ -72,7 +75,7 @@ export default function Form(props: Props) {
         ? "Your task was edited successfully!"
         : "Your new task was created successfully!",
     });
-    onSubmitOrDelete?.()
+    onSubmitOrDelete?.();
   };
 
   const onDelete = async () => {
