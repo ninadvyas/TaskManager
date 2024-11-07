@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useRef } from "react";
 import { IoClose } from "react-icons/io5";
 
@@ -12,22 +12,27 @@ type Props = {
 export default function Modal(props: Props) {
   const { isOpen, title, close, children } = props;
   const modalRef = useRef<HTMLDivElement | null>(null);
-  const onScreenClick = (e: any) => {
-    const dimentions = modalRef.current?.getBoundingClientRect()
-    if(!dimentions) return  
-    if(
-        e.clientX < dimentions.left || 
-        e.clientX > dimentions.right || 
-        e.clientY < dimentions.top || 
-        e.clientY > dimentions.bottom  
+
+  const onScreenClick = (e: React.MouseEvent<HTMLDivElement>) => {
+    const dimensions = modalRef.current?.getBoundingClientRect();
+    if (!dimensions) return;
+    if (
+      e.clientX < dimensions.left ||
+      e.clientX > dimensions.right ||
+      e.clientY < dimensions.top ||
+      e.clientY > dimensions.bottom
     ) {
-        close()
+      close();
     }
-  }
+  };
+
   if (!isOpen) return null;
 
   return (
-    <div onClick={onScreenClick} className="fixed z-[10] inset-0 bg-zinc-900/90 flex items-center justify-center">
+    <div
+      onClick={onScreenClick}
+      className="fixed z-[10] inset-0 bg-zinc-900/90 flex items-center justify-center"
+    >
       <div
         ref={modalRef}
         className="bg-background text-white rounded max-h-[90vh] overflow-y-auto md:max-w-[70vw] max-w-[90vw]"

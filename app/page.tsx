@@ -22,7 +22,7 @@ export default function Home() {
               <div className="h-full flex flex-col justify-center p-6 space-y-4">
                 <div className="space-y-2">
                   <CardTitle>Create a New Task</CardTitle>
-                  <CardDescription>What's on your agenda today?</CardDescription>
+                  <CardDescription>What is on your agenda today?</CardDescription>
                 </div>
                 <Form />
               </div>
