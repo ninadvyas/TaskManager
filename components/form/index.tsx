@@ -42,7 +42,7 @@ export default function Form(props: Props) {
     defaultValues: isEditing
       ? {
           title: task.title,
-          description: task.description,
+          description: task.description || "",
           status: task.status as TaskStatus,
         }
       : {
@@ -132,13 +132,6 @@ export default function Form(props: Props) {
           {isEditing ? null : (
             <Button
               type="submit"
-              icon={
-                isLoading ? (
-                  <VscLoading className="animate-spin" />
-                ) : (
-                  <IoAddOutline />
-                )
-              }
             >
               Add Task
             </Button>
