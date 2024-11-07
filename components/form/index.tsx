@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState } from "react";
-import { VscLoading } from "react-icons/vsc";
 import {
   Form as FormComp,
   FormControl,
@@ -23,7 +22,6 @@ import {
 import StatusBullet from "../StatusBullet";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
-import { IoAddOutline } from "react-icons/io5";
 import { createTask, deleteTask, updateTask } from "@/services/task";
 import { useToast } from "@/hooks/use-toast";
 import { Task } from "@prisma/client";
